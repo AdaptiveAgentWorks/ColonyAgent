@@ -1,0 +1,122 @@
+# ============================================================
+# ColonyAgent Default Configuration
+# ============================================================
+
+# ----------------------------------------------------------
+# Preprocessing Tools
+# ----------------------------------------------------------
+tools:
+  clahe:
+    clip_limit: 2.0
+    tile_size: 8
+
+  illumination:
+    method: retinex
+
+  denoise:
+    method: nlm
+    h: 10
+
+  roi_extract:
+    method: hough
+
+  sharpen:
+    method: unsharp_mask
+    strength: 1.0
+
+  white_balance:
+    method: gray_world
+
+  colony_separation:
+    method: watershed
+    min_distance: 20
+
+# ----------------------------------------------------------
+# Detectors
+# ----------------------------------------------------------
+# Note: Replace paths with your local model paths
+detectors:
+  yolov8:
+    model_path: checkpoints/yolov8_best.pt
+    conf: 0.5
+    iou: 0.45
+    device: cuda:0
+
+  rtdetr:
+    model_path: checkpoints/rtdetr_best.pt
+    conf: 0.5
+    iou: 0.45
+    device: cuda:0
+
+  fasterrcnn:
+    model_path: checkpoints/faster_rcnn.pt
+    conf: 0.5
+    iou: 0.45
+    device: cuda:0
+    num_classes: 8
+
+# ----------------------------------------------------------
+# Image Quality Assessment
+# ----------------------------------------------------------
+quality:
+  blur_weight: 0.25
+  brightness_weight: 0.20
+  contrast_weight: 0.20
+  noise_weight: 0.20
+  color_bias_weight: 0.15
+
+  thresholds:
+    blur: 100.0
+    brightness_low: 40
+    brightness_high: 220
+    contrast: 50.0
+    noise: 30.0
+    color_bias: 20.0
+
+# ----------------------------------------------------------
+# LLM
+# ----------------------------------------------------------
+# Note: Set MINIMAX_API_KEY in .env file
+llm:
+  model_name: MiniMax-M2.7-highspeed
+  api_key: ${MINIMAX_API_KEY}
+  endpoint: https://api.minimax.chat/v1
+  temperature: 0.7
+  max_tokens: 4096
+
+# ----------------------------------------------------------
+# Embedding
+# ----------------------------------------------------------
+embedding:
+  mode: local
+  model_name: paraphrase-multilingual-MiniLM-L12-v2
+
+# ----------------------------------------------------------
+# Memory
+# ----------------------------------------------------------
+memory:
+  skill_library_dir: memory/skill_library
+  experience_bank_dir: memory/experience_bank
+  trajectories_dir: memory/trajectories
+
+# ----------------------------------------------------------
+# Phase 1: Exploration
+# ----------------------------------------------------------
+phase1:
+  num_rollouts: 3
+  batch_size: 10
+
+# ----------------------------------------------------------
+# Phase 2: Exploitation / Continual Learning
+# ----------------------------------------------------------
+phase2:
+  top_k: 3
+  similarity_threshold: 0.6
+  enable_continual_learning: true
+
+# ----------------------------------------------------------
+# Fallback: When all rollouts fail
+# ----------------------------------------------------------
+fallback:
+  enabled: true
+  search_provider: mmx
