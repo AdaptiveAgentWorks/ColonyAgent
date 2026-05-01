@@ -70,7 +70,7 @@ Image degradation (blur, noise, uneven illumination, low contrast) significantly
 
 ### System Architecture
 
-![Architecture](figure/architecture.png)
+![Architecture](figures/architecture.png)
 
 ### Tool System
 
