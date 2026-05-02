@@ -103,7 +103,7 @@ All tools implement `BaseTool.call(image, **params) -> ToolResult`:
 | **M0-clean** | None (clean images) | No | Upper-bound baseline |
 | **M1-no-preprocess** | None (degraded images) | No | Lower-bound baseline |
 | **M2-fixed-pipeline** | Fixed CLAHE+Denoise+Sharpen | No | Traditional approach |
-| **M3-adaptive** | Agent-guided | No | Agent without memory |
+| **M3-adaptive** | Retrieval-guided adaptive workflow | No online refinement | Agent with fixed memory
 | **M4-adaptive+CL** | Agent-guided | Yes | Full system |
 
 ---
